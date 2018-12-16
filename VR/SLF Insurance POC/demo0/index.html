@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>demo0.sketch</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script src="https://aframe.io/releases/0.2.0/aframe.min.js"></script>
+</head>
+    <script>
+        var initialGlitch = 0;
+        var slideNum = 0;
+        var uiLinks = [
+            'https://shounakdatta.github.io/demo0/img/ui.png',
+            'https://shounakdatta.github.io/demo1/img/ui.png',
+            'https://shounakdatta.github.io/demo2/img/ui.png',
+            'https://shounakdatta.github.io/demo3/img/ui.png',
+            'https://shounakdatta.github.io/demo4/img/ui.png',
+            'https://shounakdatta.github.io/demo5/img/ui.png',
+        ];
+        AFRAME.registerComponent('change-color-on-click', {
+            // Could use a schem to preserve the color! then simply change it on update
+            // if clicked?
+            init: function () {
+                var uiEl = document.querySelector('a-curvedimage');
+                this.el.addEventListener('click', function (evt) {
+                    if (initialGlitch > 1) {
+                        if (slideNum < 6) {
+                            uiEl.setAttribute('material', 'src', 'url('+uiLinks[slideNum]+')');
+                            slideNum++;
+                            console.log('slideNum = ' + slideNum);
+                        }
+                        else {
+                            slideNum = 0;
+                            uiEl.setAttribute('material', 'src', 'url('+uiLinks[slideNum]+')');
+                        }
+                    }
+                    initialGlitch++;
+                    console.log('initialGlitch = ' + initialGlitch);
+                });
+            }
+        });
+    </script>
+<body>
+<a-scene change-color-on-click>
+<!-- <a-box position="1 0 1" rotation="0 45 0" color="#4CC3D9"></a-box> -->
+<a-curvedimage id="curvedUI" src="img/ui.png" radius="4" theta-length="360" height="12" scale=".3 .3 .3"></a-curvedimage>
+<a-sky src="img/background.jpg"><a-root><a-entity geometry="primitive: sphere" material="shader: flat; src: url(img/background.jpg);" scale="1 1 1"></a-entity></a-root></a-sky>
+<a-entity camera look-controls>
+<a-entity cursor="fuse: true;" position="0 0 -1" scale=".01 .01 .01" geometry="primitive: ring" material="color: #fff; shader: flat">
+</a-entity>
+</a-entity>
+</a-scene>
+</body>
+</html>
